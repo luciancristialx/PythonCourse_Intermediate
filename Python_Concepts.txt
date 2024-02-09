@@ -61,3 +61,25 @@ Dictionary: s a collection which is ordered** and changeable. No duplicate membe
  }
           myDict = dict(name = "John", age = 36, country = "Norway)
  -Get Keys: myDict.keys()
+
+
+
+OOP:
+ Class: Object constructor, or a blueprint for creating objects
+  __init__ - function executed when the class is being initiated
+  __str__ - function that controls what should be returned when the class object is represented as a string.
+  self parameter - reference to the current instance of the class, and is used to access variables that belong to the class
+  pass statement - to avoid getting error if you have a class with no content, use pass
+  Object methods: Functions that belong to the object.
+
+ Inheritance: Allows to define a class that inherits all the methods and properties from another class.
+  Parent class is the class being inherited from, also called base class.
+  Child class is the class that inherits from another class, also called derived class.
+
+ Polymorphism: It refers to methods/functions/operators with the same name that can be executed on many objects or classes.
+
+
+
+File Paths:
+ Absolute:relative to the root (C drive)
+ Relative:relative to current working directory

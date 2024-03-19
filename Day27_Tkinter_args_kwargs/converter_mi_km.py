@@ -33,6 +33,4 @@ lbl_mi.grid(column = 2, row = 1)
 btn_calc = Button(text = "Calculate",command = button_click)
 btn_calc.grid(column = 1,row = 2)
 
-
-
 window.mainloop()

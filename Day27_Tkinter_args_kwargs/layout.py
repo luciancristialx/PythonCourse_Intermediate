@@ -29,10 +29,4 @@ inputField = Entry(width = 10)
 print(inputField.get())
 inputField.grid(column = 3, row = 2)
 
-
-
-
-
-
-
 window.mainloop()

@@ -1,5 +1,6 @@
 import random
 import pyperclip
+import json
 from tkinter import *
 from tkinter import messagebox
 
@@ -28,25 +29,57 @@ def save_to_text():
     website = entry_website.get()
     username = entry_email_username.get()
     pwd = entry_pwd.get()
-    txt_to_append = f"{website} | {username} | {pwd}\n"
+    complexity = pwd_complexity()
+    new_data = {website:{
+        "email":username,
+        "password":pwd,
+        "complexity": complexity
+    }}
 
     if len(website) == 0 or len(pwd) == 0:
         messagebox.showinfo(title = "Ooops", message = "Please make sure you haven't left any fields empty!")
     else:
-        is_ok = messagebox.askokcancel(title = f"Confirmation - {website}", message = f"These are the details "
-                                                                                    f"entered:\nEmail: {username} \nPassword: {pwd}\n\n Is it ok to save?")
-
-        if is_ok:
-            with open('data.txt','a') as f:
-                f.writelines(txt_to_append)
-                entry_pwd.delete(0, END)
-                entry_website.delete(0, END)
-                var.set(3)
+        try:
+            with open('data.json','r') as file:
+                # Read old data
+                data = json.load(file)
+        except FileNotFoundError:
+            with open('data.json', 'w') as file:
+                # Saving updated data
+                json.dump(new_data, file, indent = 4)
         else:
+            #Updating old data with new data
+            data.update(new_data)
+            with open('data.json', 'w') as file:
+                #Saving updated data
+                json.dump(data,file, indent = 4)
+        finally:
             entry_pwd.delete(0, END)
             entry_website.delete(0, END)
+            var.set(3)
+            entry_website.focus()
 
-    entry_website.focus()
+# ---------------------------- SEARCH WEBSITE  ------------------------------- #
+
+def search_website():
+    website = entry_website.get()
+    try:
+        with open('data.json', 'r') as file:
+            # Read current data
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo(title = "Error", message = "No Data File found!")
+    else:
+        if website in data:
+            messagebox.showinfo(title = website,message = f"Email: {data.get(website)['email']}\nPassword: "
+                                                          f"{data.get(website)['password']}")
+        else:
+            messagebox.showinfo(title = "Error", message = "No details for the website exists.")
+    finally:
+        entry_pwd.delete(0, END)
+        entry_website.delete(0, END)
+        var.set(3)
+        entry_website.focus()
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -76,8 +109,8 @@ lbl_pwd_length.config(text = "Password length:")
 lbl_pwd_length.grid(column = 0, row = 3,pady = 3)
 
 #Entry
-entry_website = Entry(width = 50)
-entry_website.grid(column = 1, row = 1, columnspan = 2)
+entry_website = Entry(width = 32)
+entry_website.grid(column = 1, row = 1, columnspan = 1)
 entry_website.focus()
 
 entry_email_username = Entry(width = 50)
@@ -91,6 +124,10 @@ btn_generate_pwd = Button(command = pwd_generator)
 btn_generate_pwd.config(text = "Generate password")
 btn_generate_pwd.grid(column = 2,row = 6,padx = 0)
 
+btn_search = Button(command = search_website)
+btn_search.config(text = "Search",width = 14)
+btn_search.grid(column = 2,row = 1,padx = 0)
+
 var = IntVar()
 R1 = Radiobutton(window, text="30", variable=var, value=30, command=pwd_complexity)
 R1.grid( column = 1, row = 3 )
@@ -102,8 +139,5 @@ R3.grid( column = 1, row = 5 )
 btn_add = Button(width = 42,command = save_to_text)
 btn_add.config(text = "Add")
 btn_add.grid(column = 1,row = 7,columnspan = 2,pady = 3)
-
-
-
 
 window.mainloop()

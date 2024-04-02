@@ -78,8 +78,11 @@ OOP:
 
  Polymorphism: It refers to methods/functions/operators with the same name that can be executed on many objects or classes.
 
-
-
 File Paths:
  Absolute:relative to the root (C drive)
  Relative:relative to current working directory
+
+JSON:
+ json.dump() - write
+ json.load() - read
+ json.update() - update/

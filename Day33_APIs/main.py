@@ -3,8 +3,8 @@ from datetime import datetime
 import smtplib
 import time
 
-MY_EMAIL = "test@domain.com"
-MY_PWD = "abcdefghi()"
+MY_EMAIL = "email_address"
+MY_PWD = "gmail_app_pwd"
 
 MY_LAT = 44.426765
 MY_LNG = 26.102537
